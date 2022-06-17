@@ -8,5 +8,6 @@ import { PrismaService } from './database/config';
   imports: [],
   controllers: [AppController],
   providers: [AppService, UserRepository, PrismaService],
+  exports: [AppService],
 })
 export class AppModule {}

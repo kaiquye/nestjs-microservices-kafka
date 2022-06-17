@@ -1,4 +1,4 @@
 export enum TABLE_ENUM {
-  user = 'User',
+  user = 'USER',
   account = 'Account',
 }

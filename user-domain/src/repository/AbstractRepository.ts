@@ -6,7 +6,9 @@ interface Reader<T> {
 
   findOne(id: number);
 
-  exists(id: number, where: T): Promise<boolean>;
+  exists(id: number, where: T | object): Promise<boolean>;
+
+  findoneorfail(where: T | object | []): Promise<T>;
 }
 
 interface Writer<T> {
@@ -44,24 +46,28 @@ export abstract class AbstractRepository<T> implements Repository<T> {
     });
   }
 
-  async exists(id: number | boolean, where: T): Promise<boolean> {
-    if (id < 0 || id !== undefined || id !== null || id !== false) {
+  async exists(id: number | boolean, where: T | object | []): Promise<boolean> {
+    if (id > 1 && id !== undefined) {
       const check = await this.query[`${this.tableName.toString()}`].findFirst({
         where: {
           id: id,
         },
       });
-      console.log(check);
       return check !== null ? true : false;
     } else {
-      console.log(where);
       delete where['id'];
       const check = await this.query[`${this.tableName.toString()}`].findFirst({
-        where,
+        where: {
+          ...where,
+        },
       });
-      console.log('check', check);
       return check !== null ? true : false;
     }
+  }
+
+  findoneorfail(where: T | object | []): Promise<T> {
+    console.log(where);
+    return this.query[`${this.tableName}`].findFirst({ where });
   }
 
   update(id: number, item: Partial<T>): Promise<boolean> {
