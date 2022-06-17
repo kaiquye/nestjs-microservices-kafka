@@ -3,6 +3,7 @@ import { UserRepository } from './repository/user-repository';
 import { CreateUserDto } from './dto/createUser.dto';
 import { AppError } from './model/AppError';
 import { hashSync } from 'bcrypt';
+import { IUser } from './interfaces/IUser';
 
 @Injectable()
 export class AppService {
@@ -20,13 +21,14 @@ export class AppService {
     return await this.userRepository.create(userDto);
   }
 
-  async findUserOrFailByEmail(email: string) {
+  async findUserOrFailByEmail(email: string): Promise<IUser> {
     console.log(email);
     try {
-      const { id, fist_name, phone } = await this.userRepository.findoneorfail({
-        email: email,
-      });
-      console.log(id);
+      const { id, phone, password, fist_name, last_name } =
+        await this.userRepository.findoneorfail({
+          email: email,
+        });
+      return { id, phone, password, email, fist_name, last_name };
     } catch (err) {
       new AppError('not found', 404).Exception;
     }
