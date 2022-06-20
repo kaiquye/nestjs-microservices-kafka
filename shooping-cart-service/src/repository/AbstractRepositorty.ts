@@ -2,11 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { TABLE_ENUM } from '../enum/table.enum';
 
 interface queries<T> {
-  OR: [
-    {
-      T;
-    },
-  ];
+  OR: [{}, {}?, {}?];
 }
 
 interface Reader<T> {
