@@ -1,0 +1,4 @@
+
+-- criar cadastro de produtos no serviço de carrinho
+-
+-- tratar erros retornados pelos serviços

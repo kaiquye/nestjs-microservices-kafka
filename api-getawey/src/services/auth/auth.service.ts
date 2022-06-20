@@ -11,7 +11,12 @@ export class AuthService {
   ) {}
   async getToken(userPayload) {
     return {
-      token: this.jwt.sign({ email: userPayload.email, id: userPayload.id }),
+      token: this.jwt.sign({
+        email: userPayload.email,
+        id: userPayload.id,
+        phone: userPayload.phone.toString(),
+        fist_name: userPayload.fist_name
+      }),
     };
   }
   async validadeUser(email: string, password: string) {
